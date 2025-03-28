@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql://eventuser:eventpass@postgres/eventdb
+      - SECRET_KEY=your-secret-key
+
+  postgres:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=eventdb
+      - POSTGRES_USER=eventuser
+      - POSTGRES_PASSWORD=eventpass
+
+volumes:
+  postgres_data:
